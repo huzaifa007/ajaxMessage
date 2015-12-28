@@ -1,4 +1,28 @@
 
+	
+	function loadMessages(post_id,last_id)
+	{
+		if(post_id != null && last_id != null)
+		{
+			var ajaxObject = $.post("<?php echo base_url("user/ajax_loadMessages") ?>",{ last_id : last_id , post_id : post_id },null,'json');
+			ajaxObject.done(function(data){
+				console.log(data.html);
+				if(window.mutexLocalMessages == "unlock")
+				{
+					$(".timeline-messages").append(data.html);	
+				}
+			});
+			ajaxObject.error(function(data){
+			    console.log(data);
+			});	
+		}
+		else
+		{
+			console.log ("invalid id");
+		}
+	}
+
+
 	var x = "Your identical id";
 	var y = "Starting From";
  	loadMessages(x,y);
