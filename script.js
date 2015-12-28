@@ -6,11 +6,7 @@
 		{
 			var ajaxObject = $.post("<?php echo base_url("user/ajax_loadMessages") ?>",{ last_id : last_id , post_id : post_id },null,'json');
 			ajaxObject.done(function(data){
-				console.log(data.html);
-				if(window.mutexLocalMessages == "unlock")
-				{
-					$(".timeline-messages").append(data.html);	
-				}
+				$(".timeline-messages").append(data.html);	
 			});
 			ajaxObject.error(function(data){
 			    console.log(data);
