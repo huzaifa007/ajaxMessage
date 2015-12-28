@@ -1,9 +1,38 @@
-public function ajax_loadMessages()
+<?php 
+    
+    public function ajax_sendMessage()
+    {
+        util_isAjax(); // this is method checks if request is XMLHTTP or direct
+        if($_POST)
+        {
+            $conversaton = $_POST;
+            $session = userData('user_data'); // this function return the session stored data from user_data array
+            $conversaton['user_id'] = $session['id'];
+            $conversaton['status'] = 0;
+            $result = $this->db->insert("conversations",$conversaton);
+            if($result)
+            {
+                echo json_encode(true);
+            }
+            else
+            {
+                echo json_encode(false);
+            }
+        }
+    }
+
+
+    
+    /**
+     * This method is for loading messages and throwing back data in json format
+     * 
+     * */
+    public function ajax_loadMessages()
     {
         util_isAjax();
         if($_POST)
         {
-           $post_id = util_iPost('post_id');
+           $post_id = util_iPost('post_id'); // similar to $_POST['post_id']
            $last_id = util_iPost('last_id');
            $this->db->select("conversations.*,CONCAT(users.fname,' ',users.lname) as username,users.image",FALSE);
            $this->db->join("users","users.id = conversations.user_id","left");
